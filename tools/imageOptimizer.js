@@ -1,11 +1,11 @@
-const path = require("path");
-const fs = require("fs").promises;
+import { parse } from "path";
+import * as fs from "fs/promises";
 
-const imagemin = require("imagemin");
-const imageminJpegtran = require("imagemin-jpegtran");
-const imageminPngquant = require("imagemin-pngquant");
-const imageminSvgo = require("imagemin-svgo");
-const imageminGifsicle = require("imagemin-gifsicle");
+import imagemin from "imagemin";
+import imageminJpegtran from "imagemin-jpegtran";
+import imageminPngquant from "imagemin-pngquant";
+import imageminSvgo from "imagemin-svgo";
+import imageminGifsicle from "imagemin-gifsicle";
 
 (async () => {
   const files = await imagemin(
@@ -25,7 +25,7 @@ const imageminGifsicle = require("imagemin-gifsicle");
     }
   ).then((files) => {
     files.forEach(async (file) => {
-      const source = path.parse(file.sourcePath);
+      const source = parse(file.sourcePath);
       file.destinationPath = `${source.dir}/${source.name}.min${source.ext}`;
       await fs.writeFile(file.destinationPath, file.data);
     });
